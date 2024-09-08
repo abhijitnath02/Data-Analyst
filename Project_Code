@@ -1,0 +1,62 @@
+import numpy as np             #linear algebric executions
+import pandas as pd            #data preparation
+import plotly.express as px    #data visualization
+from textblob import TextBlob  #sentiment analysis
+from sklearn. impute import SimpleImputer
+
+
+df = pd.read_csv("/Users/devilboy/Downloads/archive-3/netflix.csv")
+df.shape 
+df.head(18)
+
+df.columns
+
+x = df.groupby(['Age Rating.1']).size().reset_index(name='COUNTS')
+print(x)   #Analysing a column (age rating and its no. of occurance)
+
+pieChart = px.pie(x, values='COUNTS', names='Age Rating.1', title='Netflix Age Rating.1 Distribution')
+pieChart.show()           #Visualizing the age rating.1 in graph
+
+
+df = df.drop([' ', 'Age Rating'], axis=1)
+df = df.drop(['Unnamed: 6', 'Unnamed: 7'], axis=1)
+df = df.drop(['Unnamed: 11', 'Unnamed: 12'], axis=1)
+df = df.drop(['Unnamed: 13', 'Unnamed: 14'], axis=1)
+df = df.drop(['Unnamed: 15', 'Unnamed: 16'], axis=1)
+df = df.drop(['Unnamed: 17', 'Unnamed: 18'], axis=1)
+df = df.drop(['Unnamed: 19', 'Unnamed: 20'], axis=1)
+df = df.drop(['Unnamed: 8'], axis=1)
+
+df = df.drop(1)           #removing rows
+df.head(30)
+
+y = df.groupby(['Duration']).size().reset_index(name='Counts')
+print(y)                      #Analysing a column (duration and its no. of occurance)
+
+df.set_index("Name", inplace = True)     #removing the sl. no.
+df.head(30)
+
+df.isnull().sum()          #checking the count of null value
+DF.head()
+
+DF.isnull().sum()
+print(DF)
+
+NewDF = DF.fillna(method = 'ffill')
+
+NewDF.head(30)
+NewDF.isnull().sum()
+
+AgeRating = NewDF.groupby(['Age Rating.1']).size().reset_index(name='COUNTS')
+print(AgeRating)
+
+Top5AgeRating = AgeRating.head()
+print(Top5AgeRating)
+
+Top5AgeRating=Top5AgeRating.sort_values(by=['COUNTS'])
+barChart = px.bar(Top5AgeRating, x='Age Rating.1', y='COUNTS', title='Top 5 Age Ratings on Netflix')
+barChart.show()
+
+y=y.sort_values(by=['Counts'], ascending = False)
+barChart = px.bar(y, x='Duration', y='Counts', title='Movie Duration on Netflix')
+barChart.show()
